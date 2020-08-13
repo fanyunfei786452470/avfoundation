@@ -12,7 +12,7 @@
 @interface THPlayerController ()
 
 @property (nonatomic, readwrite, assign) BOOL playing;
-@property (nonatomic, strong) NSArray * players;
+@property (nonatomic, strong) AVAudioPlayer * player;
 
 @end
 
@@ -20,11 +20,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        AVAudioPlayer * guitarPlayer = [self playerForFile:@"guitar"];
-        AVAudioPlayer * bassPlayer = [self playerForFile:@"bass"];
-        AVAudioPlayer * drumsPlayer = [self playerForFile:@"drums"];
-        _players = @[guitarPlayer, bassPlayer, drumsPlayer];
-        
+        _player = [self playerForFile:@"happy"];
         [self registerNotifications];
     }
     return self;
@@ -32,52 +28,36 @@
 
 - (void)play {
     if (!self.playing) {
-        NSTimeInterval delayTime = [self.players[0] deviceCurrentTime] + 0.01;
-        for (AVAudioPlayer *player in self.players) {
-            [player playAtTime:delayTime];
-        }
+        [self.player play];
         self.playing = YES;
     }
 }
 
 - (void)stop {
     if (self.playing) {
-        for (AVAudioPlayer *player in self.players) {
-            [player stop];
-            player.currentTime = 0.0f;
-        }
-        self.playing = NO;
+        [self.player stop];
+        self.player.currentTime = 0.0f;
     }
+    self.playing = NO;
 }
 
 - (void)adjustRate:(float)rate {
-    for (AVAudioPlayer *player in self.players) {
-        player.rate = rate;
-    }
+    self.player.rate = rate;
 }
 
-- (void)adjustPan:(float)pan forPlayerAtIndex:(NSUInteger)index {
-    if ([self isValidIndex:index]) {
-        AVAudioPlayer *player = self.players[index];
-        player.pan = pan;
-    }
+- (void)adjustPan:(float)pan {
+    self.player.pan = pan;
 }
 
-- (void)adjustVolume:(float)volume forPlayerAtIndex:(NSUInteger)index {
-    if ([self isValidIndex:index]) {
-        AVAudioPlayer *player = self.players[index];
-        player.volume = volume;
-    }
-}
-
-- (BOOL)isValidIndex:(NSUInteger)index {
-    return index == 0 || index < self.players.count;
+- (void)adjustVolume:(float)volume {
+    self.player.volume = volume;
 }
 
 - (AVAudioPlayer *)playerForFile:(NSString *)name {
-    NSURL * fileURL = [[NSBundle mainBundle] URLForResource:name withExtension:@"caf"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:@"mp3"];
+    NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
     NSError * error;
-    AVAudioPlayer * player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:&error];
+    AVAudioPlayer * player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
     if (player) {
         player.numberOfLoops = -1;
         player.enableRate = YES;

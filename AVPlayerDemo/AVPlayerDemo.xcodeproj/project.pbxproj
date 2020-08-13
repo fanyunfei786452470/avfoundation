@@ -15,6 +15,7 @@
 		0FE622EF24E51FC300CEABE9 /* AVPlayerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE622EE24E51FC300CEABE9 /* AVPlayerDemoTests.m */; };
 		0FE622FA24E51FC300CEABE9 /* AVPlayerDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE622F924E51FC300CEABE9 /* AVPlayerDemoUITests.m */; };
 		0FE6230924E5221E00CEABE9 /* THPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE6230824E5221E00CEABE9 /* THPlayerController.m */; };
+		0FE6230B24E5451300CEABE9 /* happy.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6230A24E5451300CEABE9 /* happy.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		0FE622FB24E51FC300CEABE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0FE6230724E5221E00CEABE9 /* THPlayerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THPlayerController.h; sourceTree = "<group>"; };
 		0FE6230824E5221E00CEABE9 /* THPlayerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THPlayerController.m; sourceTree = "<group>"; };
+		0FE6230A24E5451300CEABE9 /* happy.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = happy.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 				0FE622D924E51FC100CEABE9 /* ViewController.m */,
 				0FE6230724E5221E00CEABE9 /* THPlayerController.h */,
 				0FE6230824E5221E00CEABE9 /* THPlayerController.m */,
+				0FE6230A24E5451300CEABE9 /* happy.mp3 */,
 				0FE622DE24E51FC200CEABE9 /* Assets.xcassets */,
 				0FE622E024E51FC200CEABE9 /* LaunchScreen.storyboard */,
 				0FE622E324E51FC200CEABE9 /* Info.plist */,
@@ -239,6 +242,7 @@
 			files = (
 				0FE622E224E51FC200CEABE9 /* LaunchScreen.storyboard in Resources */,
 				0FE622DF24E51FC200CEABE9 /* Assets.xcassets in Resources */,
+				0FE6230B24E5451300CEABE9 /* happy.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +367,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -415,7 +419,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

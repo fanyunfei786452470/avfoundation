@@ -19,15 +19,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface THPlayerController : NSObject
 
 @property (nonatomic, weak) id <THPlayerControllerDelegate>delegate;
-
 @property (nonatomic, readonly,getter=isPlaying) BOOL playing;
 
 - (void)play;
 - (void)stop;
 - (void)adjustRate:(float)rate;
 
-- (void)adjustPan:(float)pan forPlayerAtIndex:(NSUInteger)index;
-- (void)adjustVolume:(float)volume forPlayerAtIndex:(NSUInteger)index;
+- (void)adjustPan:(float)pan;
+- (void)adjustVolume:(float)volume;
 
 @end
 
