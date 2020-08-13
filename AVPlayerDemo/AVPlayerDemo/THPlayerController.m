@@ -25,7 +25,7 @@
         AVAudioPlayer * drumsPlayer = [self playerForFile:@"drums"];
         _players = @[guitarPlayer, bassPlayer, drumsPlayer];
         
-        [self registerInterruptionNotification];
+        [self registerNotifications];
     }
     return self;
 }
@@ -88,9 +88,10 @@
     return player;
 }
 
-- (void)registerInterruptionNotification {
+- (void)registerNotifications {
     NSNotificationCenter * notification = [NSNotificationCenter defaultCenter];
     [notification addObserver:self selector:@selector(handleInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
+    [notification addObserver:self selector:@selector(handleRouteChange:) name:AVAudioSessionRouteChangeNotification object:[AVAudioSession sharedInstance]];
 }
 
 - (void)handleInterruption:(NSNotification *)notification {
@@ -110,6 +111,20 @@
             if (self.delegate && [self.delegate respondsToSelector:@selector(playbackBegan)]) {
                 [self.delegate playbackBegan];
             }
+        }
+    }
+}
+
+- (void)handleRouteChange:(NSNotification *)notification {
+    NSDictionary *info = notification.userInfo;
+    AVAudioSessionRouteChangeReason reason = [info[AVAudioSessionRouteChangeReasonKey] unsignedIntegerValue];
+    if (reason == AVAudioSessionRouteChangeReasonOldDeviceUnavailable) {
+        AVAudioSessionRouteDescription *previousRoute = info[AVAudioSessionRouteChangePreviousRouteKey];
+        AVAudioSessionPortDescription *previousOutput = previousRoute.outputs[0];
+        NSString *portType = previousOutput.portType;
+        if ([portType isEqualToString:AVAudioSessionPortHeadphones]) {
+            [self stop];
+            [self.delegate playbackStopped];
         }
     }
 }
