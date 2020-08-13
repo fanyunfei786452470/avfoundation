@@ -24,6 +24,8 @@
         AVAudioPlayer * bassPlayer = [self playerForFile:@"bass"];
         AVAudioPlayer * drumsPlayer = [self playerForFile:@"drums"];
         _players = @[guitarPlayer, bassPlayer, drumsPlayer];
+        
+        [self registerInterruptionNotification];
     }
     return self;
 }
@@ -84,6 +86,36 @@
         NSLog(@"Error creating player:%@",[error localizedDescription]);
     }
     return player;
+}
+
+- (void)registerInterruptionNotification {
+    NSNotificationCenter * notification = [NSNotificationCenter defaultCenter];
+    [notification addObserver:self selector:@selector(handleInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
+}
+
+- (void)handleInterruption:(NSNotification *)notification {
+    NSDictionary *info = notification.userInfo;
+    AVAudioSessionInterruptionType type = [info[AVAudioSessionInterruptionTypeKey] unsignedIntegerValue];
+    if (type == AVAudioSessionInterruptionTypeBegan) {
+        // Handle AVAudioSessionInterruptionTypeBegan
+        [self stop];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(playbackStopped)]) {
+            [self.delegate playbackStopped];
+        }
+    } else {
+        // Handle AVAudioSessionInterruptionTypeEnded
+        AVAudioSessionInterruptionOptions options = [info[AVAudioSessionInterruptionOptionKey] unsignedIntegerValue];
+        if (options == AVAudioSessionInterruptionOptionShouldResume) {
+            [self play];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(playbackBegan)]) {
+                [self.delegate playbackBegan];
+            }
+        }
+    }
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
